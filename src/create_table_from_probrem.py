@@ -35,20 +35,15 @@ def get_table_def(soup):
 
     return table_def_list
 
-def create_table(soup, conn):
-    table_def_list = get_table_def(soup)
-    table_name_list = get_table_names(soup)
-    print("-----------------------------")
-    print("table names : ", ",".join(table_name_list))
-    print("table definitions : \n", "\n".join([str(x) for x in table_def_list]))
+
+def create_table(soup, conn, table_def_list, table_name_list):
+    
     columns = reduce(lambda x,y: list(x) +list(y), [x.keys() for x in table_def_list])
     converters = {x: str for x in set(columns)}
     sample_data_start_index = [x.string for x in soup.select("h3 , h4, table")].index('サンプルデータ')
     table_dfs = pd.read_html("".join([str(x) for x in soup.select("h3 , h4, table")][sample_data_start_index:]), converters=converters)
     for i in range(len(table_def_list)):
-        print("create table: ", table_name_list[i])
         table_dfs[i].astype(table_def_list[i]).to_sql(table_name_list[i],conn, if_exists='replace',index=None)
-
 
 
 if __name__ == "__main__":
@@ -64,4 +59,9 @@ if __name__ == "__main__":
     soup = BeautifulSoup(response,features="html.parser")
     print("probrem: " + url)
     conn = sqlite3.connect(db_path)
-    create_table(soup, conn)
+    table_def_list = get_table_def(soup)
+    table_name_list = get_table_names(soup)
+    
+    print("table names : ", ",".join(table_name_list))
+    print("table definitions : \n", "\n".join([str(x) for x in table_def_list]))
+    create_table(soup, conn, table_def_list, table_name_list)
