@@ -1,10 +1,15 @@
 # SQL contest tool
 
-[TOPSIC sql contest](https://topsic-contest.jp/) の問題を手元で解くための環境を作るツール  
+[TOPSIC sql contest](https://topsic-contest.jp/) の問題を手元で解くための環境を作る非公式ツールです。  
+作成されたDBにお好きなSQLite I/Fでアクセスし、好きなSQLフォーマッタを使うことができます。  
+おすすめはVSCode拡張の[SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite)です。  
+
 各問題ごとにSQLiteDBを作成し、問題ページ内のテーブル定義に則ってサンプルデータのテーブルを作成します。  
 
-作成されたDBにお好きなSQLite I/Fでアクセスし、問題を解いてください。  
-おすすめはVSCode拡張の[SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite)です。  
+
+## note
+問題にtypoがあった場合やフォーマットが変わった場合(2022/08/02時点)、ツールが正常に動作しない可能性があります。  
+適宜`create_table_from_probrem.py`を修正して使用してください。  
 
 ## usage
 ```shell
