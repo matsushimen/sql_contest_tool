@@ -5,6 +5,7 @@ import sys
 from urllib import parse, request
 from bs4 import BeautifulSoup
 from functools import reduce
+import os
 
 type_dict = {
     "VARCHAR": str,
@@ -37,8 +38,9 @@ def get_table_def(soup):
 def create_table(soup, conn):
     table_def_list = get_table_def(soup)
     table_name_list = get_table_names(soup)
+    print("-----------------------------")
     print("table names : ", ",".join(table_name_list))
-    print("table definitions : ", ",".join([str(x) for x in table_def_list]))
+    print("table definitions : \n", "\n".join([str(x) for x in table_def_list]))
     columns = reduce(lambda x,y: list(x) +list(y), [x.keys() for x in table_def_list])
     converters = {x: str for x in set(columns)}
     sample_data_start_index = [x.string for x in soup.select("h3 , h4, table")].index('サンプルデータ')
@@ -53,11 +55,13 @@ if __name__ == "__main__":
     base_url = "https://topsic-contest.jp/contests/"
     contest_name = sys.argv[1]
     problem_name = sys.argv[2]
-    db = contest_name + problem_name + ".db"
+    os.makedirs("contests/" + contest_name, exist_ok=True)
+    base_dir = os.path.abspath(os.path.dirname(__file__) + "/../")
+    db_path = os.path.join(base_dir, "contests", contest_name, problem_name + ".db")
     url = reduce(lambda x, y:parse.urljoin(x, y), [base_url + "/", contest_name + "/", "problems/", problem_name])
     req = request.Request(url=url)
     response = request.urlopen(req)
     soup = BeautifulSoup(response,features="html.parser")
-    print(url)
-    conn = sqlite3.connect(db)
+    print("probrem: " + url)
+    conn = sqlite3.connect(db_path)
     create_table(soup, conn)
