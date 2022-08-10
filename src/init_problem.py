@@ -17,14 +17,14 @@ class InitProblem:
     }
     _base_url = "https://topsic-contest.jp/contests/"
     
-    def __init__(self, contest_name, problem_name) -> None:
+    def __init__(self, contest_name, problem_code) -> None:
         self._contest_name = contest_name
-        self._problem_name = problem_name
+        self._problem_code = problem_code
         self._base_dir = os.path.abspath(os.path.dirname(__file__) + "/../")
         self._db_path = os.path.join(self._base_dir, "contests",
-                           self._contest_name, self._problem_name + ".db")
+                           self._contest_name, self._problem_code + ".db")
         self._url = reduce(lambda x, y: parse.urljoin(x, y), [
-                 self._base_url + "/", self._contest_name + "/", "problems/", self._problem_name])
+                 self._base_url + "/", self._contest_name + "/", "problems/", self._problem_code])
     
     def _get_table_names(self, soup):
         table_def_start_index = [
@@ -81,7 +81,7 @@ class InitProblem:
         soup = BeautifulSoup(response, features="html.parser")
         return soup
 
-    def init_problem(self):
+    def run(self):
         self._create_contest_dir()
         conn = self._create_db()
         soup = self._get_soup()

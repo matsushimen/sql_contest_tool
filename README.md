@@ -7,7 +7,7 @@
 - init-problem(ip)
 各問題ごとにSQLiteDBを作成し、問題ページ内のテーブル定義に則ってサンプルデータのテーブルを作成します。  
 - init-contest(ic)
-あるコンテストに対して各問題ごとにSQLiteDBを作成し、問題ページ内のテーブル定義に則ってサンプルデータのテーブルを作成します。(未実装)  
+あるコンテストに対して各問題ごとにSQLiteDBを作成し、問題ページ内のテーブル定義に則ってサンプルデータのテーブルを作成します。  
 - get-contests(gc)
 参加できるコンテスト一覧を取得します。(未実装)
 - submit
@@ -22,7 +22,9 @@
 ```shell
 pipenv install
 # init-problem
-pipenv run python src/sql_contest_tool.py ip -c {コンテスト名} -p {問題名}
+pipenv run python src/sql_contest_tool.py ip -c {コンテスト名} -p {問題コード}
+# init-contest
+pipenv run python src/sql_contest_tool.py ic -c {コンテスト名}
 ```
 
 例: [練習用コンテスト問題1](https://topsic-contest.jp/contests/practice/problems/practice001)
