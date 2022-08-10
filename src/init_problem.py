@@ -7,7 +7,7 @@ from functools import reduce
 import os
 
 
-class CreateDbFromProblem:
+class InitProblem:
     
     _type_dict = {
         "VARCHAR": str,
@@ -81,7 +81,7 @@ class CreateDbFromProblem:
         soup = BeautifulSoup(response, features="html.parser")
         return soup
 
-    def create_db_from_problem(self):
+    def init_problem(self):
         self._create_contest_dir()
         conn = self._create_db()
         soup = self._get_soup()
