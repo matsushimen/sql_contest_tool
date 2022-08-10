@@ -1,3 +1,4 @@
 /contests/*
 !/contests/.gitkeep
 /*.db
+/src/__pycache__
