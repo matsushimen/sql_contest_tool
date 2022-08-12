@@ -1,9 +1,9 @@
+import sys
+sys.path.append('.')
 from src.init_problem import InitProblem
 import pandas as pd
 import lxml
-import sys
 
-sys.path.append('.')
 
 
 class InitContest:
