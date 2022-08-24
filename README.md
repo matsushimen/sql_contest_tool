@@ -4,6 +4,8 @@
 作成されたDBにお好きなSQLite I/Fでアクセスし、好きなSQLフォーマッタを使うことができます。  
 おすすめはVSCode拡張の[SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite)です。  
 
+- init
+config.iniを生成します。SQLコンテストのユーザー名とパスワードなどを記録します。(未実装)
 - init-problem(ip)
 各問題ごとにSQLiteDBを作成し、問題ページ内のテーブル定義に則ってサンプルデータのテーブルを作成します。  
 - init-contest(ic)
@@ -19,6 +21,14 @@
 適宜src下スクリプトを修正して使用してください。  
 
 ## usage
+リポジトリのトップディレクトリにconfig.iniを作成し、以下のフォーマットに従ってユーザー名とパスワードを記述してください。
+```
+[user]
+user_name = {SQLコンテストのユーザー名}
+password = {SQLコンテストのパスワード}
+```
+
+実行方法
 ```shell
 pipenv install
 # init-problem
