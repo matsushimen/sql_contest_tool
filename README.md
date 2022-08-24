@@ -11,7 +11,7 @@
 - get-contests(gc)
 参加できるコンテスト一覧を取得します。(未実装)
 - submit
-問題に対して、回答を提出します。(未実装)
+問題に対して、回答を提出します。
 
 
 ## note
@@ -25,6 +25,8 @@ pipenv install
 pipenv run python src/sql_contest_tool.py ip -c {コンテスト名} -p {問題コード}
 # init-contest
 pipenv run python src/sql_contest_tool.py ic -c {コンテスト名}
+# submit
+pipenv run python src/sql_contest_tool.py s -c {コンテスト名} -p {問題コード} -f {SQLファイルのパス}
 ```
 
 例: [練習用コンテスト問題1](https://topsic-contest.jp/contests/practice/problems/practice001)

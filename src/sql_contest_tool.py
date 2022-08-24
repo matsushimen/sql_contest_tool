@@ -1,8 +1,9 @@
 import argparse
 import sys
 sys.path.append('.')
-from src.init_contest import InitContest
+from src.submit import Submit
 from src.init_problem import InitProblem
+from src.init_contest import InitContest
 
 def _init_problem(args):
     InitProblem(contest_name=args.contest_name,
@@ -11,6 +12,13 @@ def _init_problem(args):
 
 def _init_contest(args):
     InitContest(contest_name=args.contest_name).run()
+
+
+def _submit(args):
+    Submit(contest_name=args.contest_name,
+           problem_code=args.problem_code,
+           sql_file_path=args.sql_file_path
+           ).run()
 
 
 def parse_argments():
@@ -28,6 +36,15 @@ def parse_argments():
     init_contest.add_argument(
         "--contest_name", "-c", help="https://topsic-contest.jp/contests/'contest_name'")
     init_contest.set_defaults(handler=_init_contest)
+
+    submit = subparsers.add_parser("submit", aliases=['s'])
+    submit.add_argument(
+        "--contest_name", "-c", help="https://topsic-contest.jp/contests/'contest_name'")
+    submit.add_argument(
+        "--problem_code", "-p", help="https://topsic-contest.jp/contests/contest_name/problem/'problem_code'")
+    submit.add_argument(
+        "--sql_file_path", "-f", help="sql file path")
+    submit.set_defaults(handler=_submit)
 
     return parser.parse_args()
 
