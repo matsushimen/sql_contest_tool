@@ -12,10 +12,9 @@ class Submit:
         self._problem_url = self._base_url + contest_name + "/problems/" + problem_code
         self._user_name, self._password = self._load_config()
         self._session = requests.session()
-        self._login_token = self._get_login_csrf_token()
         self._sql_text = self._open_sql_file(sql_file_path)
         
-        
+    # TODO 都度ログインではなくsessionを保存したい
     def _load_config(self):
         config = configparser.ConfigParser()
         config.read('config.ini')
@@ -42,13 +41,12 @@ class Submit:
         return token, cookie
 
     def _login(self):
-        token = self._login_token
+        token = self._get_login_csrf_token()
         payload = {
             "user[login]": self._user_name,
             "user[password]": self._password,
             "authenticity_token": token,
         }
-        print(payload)
         return self._session.post(self._login_url,
                            data=payload
                            )
@@ -73,7 +71,7 @@ class Submit:
 
     def run(self):
         login = self._login()
-        if((login.status_code == 200) & (login.request.method == "POST")):
+        if(login.status_code == 200):
             print("Login is Successful")
         else:
             print("Login is Failed")
