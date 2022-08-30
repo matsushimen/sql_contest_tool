@@ -11,7 +11,7 @@ config.iniを生成します。SQLコンテストのユーザー名とパスワ�
 - init-contest(ic)
 あるコンテストに対して各問題ごとにSQLiteDBを作成し、問題ページ内のテーブル定義に則ってサンプルデータのテーブルを作成します。  
 - get-contests(gc)
-参加できるコンテスト一覧を取得します。(未実装)
+コンテスト一覧を取得します。
 - submit
 問題に対して、回答を提出します。
 
@@ -37,6 +37,8 @@ pipenv run python src/sql_contest_tool.py ip -c {コンテスト名} -p {問題�
 pipenv run python src/sql_contest_tool.py ic -c {コンテスト名}
 # submit
 pipenv run python src/sql_contest_tool.py s -c {コンテスト名} -p {問題コード} -f {SQLファイルのパス}
+# get-contests
+pipenv run python src/sql_contest_tool.py gc
 ```
 
 例: [練習用コンテスト問題1](https://topsic-contest.jp/contests/practice/problems/practice001)

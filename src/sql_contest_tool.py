@@ -4,6 +4,7 @@ sys.path.append('.')
 from src.submit import Submit
 from src.init_problem import InitProblem
 from src.init_contest import InitContest
+from src.get_contests import GetContests
 
 def _init_problem(args):
     InitProblem(contest_name=args.contest_name,
@@ -12,6 +13,10 @@ def _init_problem(args):
 
 def _init_contest(args):
     InitContest(contest_name=args.contest_name).run()
+    
+
+def _get_contests(args):
+    GetContests().run()
 
 
 def _submit(args):
@@ -23,7 +28,7 @@ def _submit(args):
 
 def parse_argments():
     parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(help="sub-command help")
+    subparsers = parser.add_subparsers(help="")
 
     init_problem = subparsers.add_parser("init-problem", aliases=['ip'])
     init_problem.add_argument(
@@ -45,6 +50,9 @@ def parse_argments():
     submit.add_argument(
         "--sql_file_path", "-f", help="sql file path")
     submit.set_defaults(handler=_submit)
+    
+    submit = subparsers.add_parser("get-contests", aliases=['gc'])
+    submit.set_defaults(handler=_get_contests)
 
     return parser.parse_args()
 
