@@ -13,7 +13,7 @@ class InitProblem:
     
     _type_dict = {
         "VARCHAR": str,
-        "INTEGER": int,
+        "INTEGER": "Int64",
         "FLOAT": float,
         "IMMIGRATION": str  # FIXME hard coding for typo in contest001-3
     }
