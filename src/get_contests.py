@@ -4,15 +4,18 @@ import pandas as pd
 from urllib import parse, request
 from bs4 import BeautifulSoup, Tag
 import lxml
+import sys
+sys.path.append('.')
+import src.util.util as util
 
 
 class GetContests:
     def __init__(self) -> None:
         self._contests_url = "https://topsic-contest.jp/contests"
-        self._soup = self._get_soup()
+        self._soup = util.get_soup(self._contests_url)
 
     def _get_contest_name_en(self):
-        soup = self._get_soup()
+        soup = self._soup
         opening_contests_index = [x.string for x in soup.select(
             "h3, a")].index('開催中')
         future_open_contests_index = [x.string for x in soup.select(
@@ -31,13 +34,6 @@ class GetContests:
 
         
         return [opening_contest_names_en, future_contest_names_en, ended_contest_names_en]
-        
-
-    def _get_soup(self):
-        req = request.Request(url=self._contests_url)
-        response = request.urlopen(req)
-        soup = BeautifulSoup(response, features="html.parser")
-        return soup
 
     def _show_contests(self):
         contests_dfs = pd.read_html(self._contests_url)

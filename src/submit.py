@@ -1,6 +1,9 @@
 import configparser
 import requests
 from bs4 import BeautifulSoup
+import sys
+sys.path.append('.')
+import src.util.util as util
 
 
 class Submit:
@@ -25,13 +28,6 @@ class Submit:
             sql_text = f.read()
         return sql_text
 
-    def _get_login_csrf_token(self):
-        login_page = self._session.get(self._login_url, cookies="")
-        html = BeautifulSoup(login_page.text, "html.parser")
-        token = html.find(
-            'input', attrs={"type": "hidden", "name": "authenticity_token"})["value"]
-        return token
-
     def _get_problem_cookie_csrf_token(self):
         problem_page = self._session.get(self._problem_url, cookies="")
         html = BeautifulSoup(problem_page.text, "html.parser")
@@ -39,18 +35,6 @@ class Submit:
         cookie = self._session.get(
             self._problem_url).headers["set-cookie"].split(';')[0]
         return token, cookie
-
-    def _login(self):
-        token = self._get_login_csrf_token()
-        payload = {
-            "user[login]": self._user_name,
-            "user[password]": self._password,
-            "authenticity_token": token,
-        }
-        return self._session.post(self._login_url,
-                           data=payload
-                           )
-        
 
     def _submit(self, sql_text: str):
         token, cookie = self._get_problem_cookie_csrf_token()
@@ -70,8 +54,8 @@ class Submit:
         return submit
 
     def run(self):
-        login = self._login()
-        if(login.status_code == 200):
+        login_res = util.login(self._session, self._login_url, self._user_name, self._password)
+        if(login_res.status_code == 200):
             print("Login is Successful")
         else:
             print("Login is Failed")

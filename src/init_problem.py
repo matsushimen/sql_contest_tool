@@ -5,7 +5,9 @@ from urllib import parse, request
 from bs4 import BeautifulSoup
 from functools import reduce
 import os
-
+import sys
+sys.path.append('.')
+import src.util.util as util
 
 class InitProblem:
     
@@ -73,18 +75,11 @@ class InitProblem:
         
     def _create_contest_dir(self):
         os.makedirs("contests/" + self._contest_name, exist_ok=True)
-        
-        
-    def _get_soup(self):
-        req = request.Request(url=self._url)
-        response = request.urlopen(req)
-        soup = BeautifulSoup(response, features="html.parser")
-        return soup
 
     def run(self):
         self._create_contest_dir()
         conn = self._create_db()
-        soup = self._get_soup()
+        soup = util.get_soup(self._url)
         table_name_list = self._get_table_names(soup)
         table_def_list = self._get_table_def(soup)
         self._create_table(soup, conn, table_def_list, table_name_list)
