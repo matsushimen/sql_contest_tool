@@ -65,7 +65,10 @@ class InitProblem:
             "h3 , h4, table")].index('サンプルデータ')
         table_dfs = pd.read_html("".join([str(x) for x in soup.select(
             "h3 , h4, table")][sample_data_start_index:]), converters=converters)
-        for i in range(len(table_def_list)):
+        
+        table_num = min([len(table_dfs), len(table_def_list)])
+            
+        for i in range(table_num):
             table_dfs[i].astype(table_def_list[i]).to_sql(
                 table_name_list[i], conn, if_exists='replace', index=None)
             
@@ -80,6 +83,7 @@ class InitProblem:
         self._create_contest_dir()
         conn = self._create_db()
         soup = util.get_soup(self._url)
+        print(self._url)
         table_name_list = self._get_table_names(soup)
         table_def_list = self._get_table_def(soup)
         self._create_table(soup, conn, table_def_list, table_name_list)
